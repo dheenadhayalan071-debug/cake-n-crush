@@ -4,15 +4,15 @@ import { cn } from '../../lib/cn.js';
 export default function Tag({ children, tone = 'neutral', className = '', as: TagName = 'span' }) {
   const tones = {
     neutral: 'border-line text-ink-soft bg-transparent',
-    caramel: 'border-caramel/40 text-caramel-deep bg-caramel/8',
-    dark: 'border-cream/25 text-cream/80 bg-transparent',
-    plum: 'border-plum/30 text-plum bg-plum/5',
+    caramel: 'border-cherry/40 text-cherry-deep bg-cherry-soft',
+    dark: 'border-vanilla/25 text-vanilla/80 bg-transparent',
+    plum: 'border-lavender bg-lavender-soft text-chocolate',
   };
 
   return (
     <TagName
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-[2px] border px-2 py-1 text-[0.625rem] font-semibold uppercase leading-none tracking-[0.13em]',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[0.5625rem] font-bold uppercase leading-none tracking-[0.12em]',
         tones[tone] || tones.neutral,
         className,
       )}

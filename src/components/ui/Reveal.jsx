@@ -1,9 +1,17 @@
-import { m as motion } from 'framer-motion';
-import { useMotionVariants, viewportOnce, fadeUp } from '../../lib/motion.js';
+import { motion } from 'framer-motion';
+import {
+  fadeUp,
+  useAnimationReady,
+  useVisibilitySafety,
+  viewportOnce,
+} from '../../lib/motion.js';
 
 /**
- * Reveal — a single scroll-triggered fade/translate used across the site.
- * `as` lets us keep semantic markup (section, li, article…) while animating.
+ * Reveal — scroll-triggered entrance with a hard guarantee of visibility.
+ *
+ * Without animation support this renders a plain, fully visible element.
+ * With support it animates once, and a safety timer forces it visible if the
+ * observer never fires while the element is on screen.
  */
 export default function Reveal({
   as = 'div',
@@ -14,15 +22,27 @@ export default function Reveal({
   once = true,
   ...rest
 }) {
-  const resolved = useMotionVariants(variants);
-  const Component = motion[as] || motion.div;
+  const animate = useAnimationReady();
+  const { safetyRef, forceVisible } = useVisibilitySafety(animate);
+  const Component = animate ? motion[as] || motion.div : as;
+  const extra = animate ? { ref: safetyRef } : {};
+
+  if (!animate) {
+    return (
+      <Component className={className} {...extra} {...rest}>
+        {children}
+      </Component>
+    );
+  }
 
   return (
     <Component
+      ref={safetyRef}
       initial="hidden"
-      whileInView="visible"
-      viewport={once ? viewportOnce : { amount: 0.25 }}
-      variants={resolved}
+      animate={forceVisible ? 'visible' : undefined}
+      whileInView={forceVisible ? undefined : 'visible'}
+      viewport={once ? viewportOnce : { amount: 0.15 }}
+      variants={variants}
       transition={{ delay }}
       className={className}
       {...rest}

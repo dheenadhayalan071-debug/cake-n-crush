@@ -16,11 +16,11 @@
 
 export const EDITORIAL_IMAGES = {
   'hero-cake': {
-    alt: 'Illustrative editorial styling of a tall ivory celebration cake decorated with fresh cherries',
+    alt: 'Illustrative editorial styling of a pink two-tier cake finished with sprinkles and fresh cherries',
     placeholder: true,
   },
   'brand-piping': {
-    alt: 'Illustrative editorial styling of a baker piping cream rosettes onto a celebration cake',
+    alt: 'Illustrative editorial styling of a baker piping pink buttercream rosettes onto a pastel cake',
     placeholder: true,
   },
   'texture-chocolate': {
@@ -28,23 +28,23 @@ export const EDITORIAL_IMAGES = {
     placeholder: true,
   },
   'texture-cream': {
-    alt: 'Illustrative editorial macro styling of whipped vanilla cream',
+    alt: 'Illustrative editorial macro styling of swirled vanilla bean buttercream',
     placeholder: true,
   },
   'texture-berries': {
-    alt: 'Illustrative editorial styling of berries resting on whipped cream',
+    alt: 'Illustrative editorial styling of berries and sprinkles resting on pink whipped cream',
     placeholder: true,
   },
   'cat-eggless': {
-    alt: 'Illustrative editorial styling of an eggless vanilla cream cake with a strawberry',
+    alt: 'Illustrative editorial styling of an ivory eggless cream cake with a fresh strawberry',
     placeholder: true,
   },
   'cat-celebration': {
-    alt: 'Illustrative editorial styling of a celebration cake finished with piped borders and berries',
+    alt: 'Illustrative editorial styling of a strawberry celebration cake beneath a butter-yellow arch',
     placeholder: true,
   },
   'cat-1kg': {
-    alt: 'Illustrative editorial styling of a large round chocolate celebration cake',
+    alt: 'Illustrative editorial styling of a dark chocolate and cherry cake with ganache drip',
     placeholder: true,
   },
   'cat-plum': {
@@ -72,7 +72,7 @@ export const EDITORIAL_IMAGES = {
     placeholder: true,
   },
   'gallery-custom': {
-    alt: 'Illustrative editorial styling of a two-tier bespoke cake with piped buttercream, gold leaf and dried florals',
+    alt: 'Illustrative editorial styling of a two-tier bespoke cake with textured buttercream, gold leaf and dried florals',
     placeholder: true,
   },
 };
@@ -81,6 +81,7 @@ export const EDITORIAL_IMAGES = {
 export const CATEGORY_IMAGE = {
   celebration: 'cat-celebration',
   eggless: 'cat-eggless',
+  chocolate: 'cat-1kg',
   onekg: 'cat-1kg',
   plum: 'cat-plum',
   pastries: 'cat-pastries',

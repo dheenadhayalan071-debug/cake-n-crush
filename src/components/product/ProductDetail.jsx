@@ -10,6 +10,7 @@ import { formatPrice, formatWeight } from '../../lib/format.js';
 import { buildWhatsAppUrl, productEnquiryMessage } from '../../lib/whatsapp.js';
 import { EASE_SILK } from '../../lib/motion.js';
 import { cn } from '../../lib/cn.js';
+import { MotionDiv } from '../ui/Motion.jsx';
 
 /**
  * ProductDetail — accessible modal for a single catalogue item.
@@ -87,7 +88,7 @@ export default function ProductDetail({ product, open, onClose }) {
   return (
     <AnimatePresence>
       {open ? (
-        <motion.div
+        <MotionDiv
           className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -98,11 +99,11 @@ export default function ProductDetail({ product, open, onClose }) {
             type="button"
             aria-label="Close product details"
             onClick={onClose}
-            className="absolute inset-0 h-full w-full cursor-default bg-cocoa/62 backdrop-blur-[3px]"
+            className="absolute inset-0 h-full w-full cursor-default bg-chocolate/62 backdrop-blur-[3px]"
             tabIndex={-1}
           />
 
-          <motion.div
+          <MotionDiv
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
@@ -112,17 +113,17 @@ export default function ProductDetail({ product, open, onClose }) {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: '4%', opacity: 0 }}
             transition={{ duration: 0.45, ease: EASE_SILK }}
-            className="relative z-10 flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden bg-cream shadow-2xl sm:max-h-[88dvh]"
+            className="relative z-10 flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border-2 border-chocolate bg-vanilla shadow-2xl sm:max-h-[88dvh] sm:rounded-[1.75rem]"
           >
-            <div className="flex items-center justify-between border-b border-line-soft px-5 py-3.5 sm:px-7">
-              <span className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-caramel-deep">
+            <div className="flex items-center justify-between border-b-2 border-chocolate/10 px-5 py-3.5 sm:px-7">
+              <span className="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-cherry-deep">
                 {product.categories.includes('plum') ? 'Plum Cake' : 'Cake Catalogue'}
               </span>
               <button
                 ref={closeRef}
                 type="button"
                 onClick={onClose}
-                className="-mr-1.5 flex h-10 w-10 items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                className="-mr-1.5 flex h-10 w-10 items-center justify-center rounded-full border-2 border-chocolate/15 text-ink-soft transition-colors hover:border-chocolate hover:bg-butter hover:text-chocolate"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -141,7 +142,7 @@ export default function ProductDetail({ product, open, onClose }) {
               </div>
 
               <div className="flex flex-col p-5 sm:p-8">
-                <h2 id={titleId} className="display-md text-ink">
+                <h2 id={titleId} className="display-md text-chocolate">
                   {product.name}
                 </h2>
                 <p id={descId} className="mt-3 text-sm leading-relaxed text-ink-soft">
@@ -155,13 +156,13 @@ export default function ProductDetail({ product, open, onClose }) {
                   ))}
                 </div>
 
-                <div className="mt-6 border-t border-line-soft pt-5">
+                <div className="mt-6 border-t-2 border-chocolate/10 pt-5">
                   <p className="field-label mb-2">Available variants</p>
                   <div className="space-y-4">
                     {Object.entries(groupedByWeight).map(([weight, variants]) => (
                       <div key={weight}>
                         <p className="mb-1.5 flex items-center gap-2 text-[0.75rem] font-medium text-ink-soft">
-                          <span className="inline-block h-1 w-1 rounded-full bg-caramel" aria-hidden="true" />
+                          <span className="inline-block h-1 w-1 rounded-full bg-cherry" aria-hidden="true" />
                           {formatWeight(weight)}
                         </p>
                         <div className="flex flex-wrap gap-2">
@@ -174,10 +175,10 @@ export default function ProductDetail({ product, open, onClose }) {
                                 onClick={() => setVariantId(variant.id)}
                                 aria-pressed={selected}
                                 className={cn(
-                                  'flex min-w-[7.5rem] flex-1 flex-col items-start gap-0.5 border px-3 py-2.5 text-left transition-all duration-300 sm:min-w-[8.5rem]',
+                                  'flex min-w-[7.5rem] flex-1 flex-col items-start gap-0.5 rounded-xl border-2 px-3 py-2.5 text-left transition-all duration-200 sm:min-w-[8.5rem]',
                                   selected
-                                    ? 'border-ink bg-ink text-cream'
-                                    : 'border-line bg-shell text-ink hover:border-ink/50',
+                                    ? 'border-chocolate bg-chocolate text-vanilla'
+                                    : 'border-line bg-vanilla text-chocolate hover:border-chocolate/50',
                                 )}
                               >
                                 <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em]">
@@ -186,7 +187,7 @@ export default function ProductDetail({ product, open, onClose }) {
                                 <span
                                   className={cn(
                                     'font-display text-lg leading-tight',
-                                    selected ? 'text-cream' : 'text-ink',
+                                    selected ? 'text-vanilla' : 'text-ink',
                                   )}
                                 >
                                   {formatPrice(variant.price)}
@@ -200,19 +201,19 @@ export default function ProductDetail({ product, open, onClose }) {
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-between gap-4 border-t border-line-soft pt-5">
+                <div className="mt-6 flex items-center justify-between gap-4 border-t-2 border-chocolate/10 pt-5">
                   <p className="text-sm text-ink-soft">
                     Selected:{' '}
                     <span className="font-medium text-ink">
                       {activeVariant.dietaryType} · {formatWeight(activeVariant.weight)}
                     </span>
                   </p>
-                  <div className="flex items-center border border-line">
+                  <div className="flex items-center overflow-hidden rounded-full border-2 border-chocolate/20">
                     <button
                       type="button"
                       onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                       disabled={quantity <= 1}
-                      className="flex h-9 w-9 items-center justify-center text-ink disabled:opacity-30"
+                      className="flex h-9 w-9 items-center justify-center text-chocolate transition-colors hover:bg-butter disabled:opacity-30"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="h-3.5 w-3.5" aria-hidden="true" />
@@ -224,7 +225,7 @@ export default function ProductDetail({ product, open, onClose }) {
                       type="button"
                       onClick={() => setQuantity((q) => Math.min(20, q + 1))}
                       disabled={quantity >= 20}
-                      className="flex h-9 w-9 items-center justify-center text-ink disabled:opacity-30"
+                      className="flex h-9 w-9 items-center justify-center text-chocolate transition-colors hover:bg-butter disabled:opacity-30"
                       aria-label="Increase quantity"
                     >
                       <Plus className="h-3.5 w-3.5" aria-hidden="true" />
@@ -233,7 +234,7 @@ export default function ProductDetail({ product, open, onClose }) {
                 </div>
 
                 <div className="mt-4 flex items-end justify-between gap-4">
-                  <p className="font-display text-2xl text-ink">
+                  <p className="font-display text-[1.5rem] font-semibold text-chocolate">
                     {formatPrice(activeVariant.price * quantity)}
                     <span className="ml-2 align-middle text-[0.6875rem] font-sans uppercase tracking-[0.12em] text-ink-faint">
                       indicative
@@ -242,7 +243,7 @@ export default function ProductDetail({ product, open, onClose }) {
                 </div>
 
                 <div className="mt-5 flex flex-col gap-2.5">
-                  <Button href={whatsappUrl} variant="caramel" className="w-full">
+                  <Button href={whatsappUrl} variant="chocolate" className="w-full">
                     <MessageCircle className="h-4 w-4" aria-hidden="true" />
                     Enquire about this variant
                   </Button>
@@ -259,8 +260,8 @@ export default function ProductDetail({ product, open, onClose }) {
                 </p>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </MotionDiv>
+        </MotionDiv>
       ) : null}
     </AnimatePresence>
   );

@@ -17,14 +17,14 @@ export default function MobileActionBar() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-cocoa/40 bg-cocoa/97 backdrop-blur-md md:hidden safe-bottom"
+      className="fixed inset-x-0 bottom-0 z-20 border-t border-chocolate/40 bg-chocolate/97 backdrop-blur-md md:hidden safe-bottom"
       role="region"
       aria-label="Quick contact"
     >
-      <div className="grid grid-cols-3 divide-x divide-cream/10">
+      <div className="grid grid-cols-3 divide-x divide-vanilla/10">
         <a
           href={PHONE_HREF}
-          className="flex flex-col items-center justify-center gap-1 py-2.5 text-cream/85 transition-colors active:bg-cream/10"
+          className="flex flex-col items-center justify-center gap-1 py-2.5 text-vanilla/85 transition-colors active:bg-vanilla/10"
           aria-label={`Call ${BUSINESS.name} on ${BUSINESS.phoneDisplay}`}
         >
           <Phone className="h-[1.05rem] w-[1.05rem]" aria-hidden="true" />
@@ -34,7 +34,7 @@ export default function MobileActionBar() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-1 bg-caramel/95 py-2.5 text-white transition-colors active:bg-caramel-deep"
+          className="flex flex-col items-center justify-center gap-1 bg-cherry-ink py-2.5 text-white transition-colors active:bg-chocolate"
           aria-label="Enquire on WhatsApp"
         >
           <MessageCircle className="h-[1.05rem] w-[1.05rem]" aria-hidden="true" />
@@ -42,7 +42,7 @@ export default function MobileActionBar() {
         </a>
         <Link
           to="/custom-cakes"
-          className="flex flex-col items-center justify-center gap-1 py-2.5 text-cream/85 transition-colors active:bg-cream/10"
+          className="flex flex-col items-center justify-center gap-1 py-2.5 text-vanilla/85 transition-colors active:bg-vanilla/10"
         >
           <CalendarHeart className="h-[1.05rem] w-[1.05rem]" aria-hidden="true" />
           <span className="text-[0.5625rem] font-semibold uppercase tracking-[0.16em]">Custom</span>

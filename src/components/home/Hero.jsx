@@ -1,134 +1,174 @@
 import { Link } from 'react-router-dom';
-import { m as motion } from 'framer-motion';
-import { ArrowRight, MessageCircle, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, Star } from 'lucide-react';
 import Picture from '../media/Picture.jsx';
-import { EASE_SILK, useMotionVariants, revealMask, fadeUp, staggerParent } from '../../lib/motion.js';
+import { fadeUp, revealMask, staggerParent } from '../../lib/motion.js';
+import { MotionDiv, MotionH1, MotionP, MotionSpan } from '../ui/Motion.jsx';
+import { BUSINESS, PHONE_HREF, ADDRESS } from '../../data/business.js';
 
 /**
  * Hero
  * ----
- * Editorial split: oversized serif headline, restrained copy, and a single
- * tall image with a slow mask reveal. No carousel, no autoplay, no video.
+ * Asymmetric editorial composition: the headline owns the left column and
+ * deliberately overruns its grid track, while the cake sits in an arched
+ * butter-yellow frame on the right. Two stickers are decorative only —
+ * `aria-hidden`, and nothing essential lives inside them.
  */
 export default function Hero() {
-  const maskVariants = useMotionVariants(revealMask);
-  const textParent = useMotionVariants(staggerParent(0.09, 0.15));
-  const itemVariants = useMotionVariants(fadeUp);
+  const textParent = staggerParent(0.08, 0.12);
+  const item = fadeUp;
 
   return (
-    <section className="relative overflow-hidden bg-cream" aria-labelledby="hero-heading">
-      <div className="container-page">
-        <div className="grid items-center gap-10 pb-14 pt-10 md:grid-cols-12 md:gap-8 md:pb-20 md:pt-16 lg:pb-24">
-          <motion.div
+    <section
+      className="relative overflow-hidden bg-vanilla"
+      aria-labelledby="hero-heading"
+    >
+      {/* Colour fields — decorative, behind everything, never over content */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-28 -top-24 h-[26rem] w-[26rem] rounded-full bg-strawberry-soft blur-[2px] md:h-[34rem] md:w-[34rem]" />
+        <div className="absolute right-[-10%] top-1/3 h-[22rem] w-[22rem] rounded-full bg-sky-soft md:h-[30rem] md:w-[30rem]" />
+        <div className="absolute -bottom-32 left-1/3 h-[20rem] w-[20rem] rounded-full bg-butter-soft md:h-[26rem] md:w-[26rem]" />
+      </div>
+
+      <div className="container-page relative">
+        <div className="grid items-center gap-10 pt-8 pb-16 md:grid-cols-12 md:gap-6 md:pt-12 md:pb-24 lg:pb-28">
+          {/* ---------------------------- Copy ---------------------------- */}
+          <MotionDiv
             initial="hidden"
             animate="visible"
             variants={textParent}
-            className="relative z-10 md:col-span-7 md:pr-6 lg:col-span-6"
+            className="relative z-10 md:col-span-7 lg:col-span-7 md:pr-4"
           >
-            <motion.p variants={itemVariants} className="eyebrow">
-              Patisserie · Park Town, Madurai
-            </motion.p>
+            <MotionDiv variants={item} className="flex flex-wrap items-center gap-2">
+              <span className="sticker bg-butter">
+                <Sparkles className="h-3 w-3" aria-hidden="true" />
+                Baked in Madurai
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                <Star className="h-3 w-3 fill-cherry text-cherry" aria-hidden="true" />
+                Eggless options daily
+              </span>
+            </MotionDiv>
 
-            <motion.h1
+            <MotionH1
               id="hero-heading"
-              variants={itemVariants}
-              className="display-xl mt-5 text-ink"
+              variants={item}
+              className="display-hero mt-5 text-chocolate"
             >
               {/*
-                Each line is a block <span> rather than a <br /> so the
-                accessible name reads as a normal sentence ("Every celebration
-                deserves something extraordinary.") while the layout still
-                breaks deliberately.
+                Each line is a block-level <span> for deliberate layout breaks,
+                with an explicit space between them so the accessible name
+                reads "Life is better with cake." rather than "Life isbetter
+                withcake." The visual line breaks come from display:block.
               */}
-              <span className="block">Every</span>{' '}
-              <span className="block">celebration</span>{' '}
-              <span className="block italic text-caramel-deep">deserves</span>{' '}
-              <span className="block">something</span>{' '}
-              <span className="block">extraordinary.</span>
-            </motion.h1>
+              <span className="block">Life is</span>{' '}
+              <span className="block">
+                <span className="display-script text-cherry">better</span> with
+              </span>{' '}
+              <span className="relative inline-block">
+                cake
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 220 16"
+                  preserveAspectRatio="none"
+                  className="absolute -bottom-2 left-0 h-3 w-full text-butter"
+                >
+                  <path
+                    d="M2 11c40-7 92-9 216-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="7"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+              <span className="text-cherry">.</span>
+            </MotionH1>
 
-            <motion.p
-              variants={itemVariants}
-              className="lede mt-6 max-w-md md:mt-7"
+            <MotionP variants={item} className="lede mt-7 max-w-[30rem]">
+              Little moments, big celebrations and beautifully crafted cakes for
+              every occasion.
+            </MotionP>
+
+            <MotionDiv
+              variants={item}
+              className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
-              Discover beautifully crafted cakes and sweet creations, made in Madurai
-              to make your special moments memorable.
-            </motion.p>
-
-            <motion.div variants={itemVariants} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                to="/menu"
-                className="btn btn-primary group w-full sm:w-auto"
-              >
-                Explore our menu
+              <Link to="/menu" className="btn btn-chocolate group w-full sm:w-auto">
+                Explore the menu
                 <ArrowRight
                   className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1"
                   aria-hidden="true"
                 />
               </Link>
               <Link to="/custom-cakes" className="btn btn-outline w-full sm:w-auto">
-                Design a custom cake
+                Design your cake
               </Link>
-            </motion.div>
+            </MotionDiv>
 
-            <motion.div
-              variants={itemVariants}
-              className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line-soft pt-6 text-[0.75rem] text-ink-soft"
+            <MotionP
+              variants={item}
+              className="mt-9 max-w-[30rem] border-t-2 border-chocolate/10 pt-5 text-[0.8125rem] leading-relaxed text-ink-soft"
             >
-              <span className="inline-flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-caramel" aria-hidden="true" />
-                Eggless selection available
-              </span>
+              {ADDRESS.lines[1]} ·{' '}
               <a
-                href="https://wa.me/918838159344"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 link-underline transition-colors hover:text-ink"
+                href={PHONE_HREF}
+                className="link-underline font-semibold text-chocolate"
               >
-                <MessageCircle className="h-4 w-4 text-caramel" aria-hidden="true" />
-                Enquire on WhatsApp
+                {BUSINESS.phoneDisplay}
               </a>
-            </motion.div>
-          </motion.div>
+            </MotionP>
+          </MotionDiv>
 
-          <div className="relative md:col-span-5 lg:col-span-6">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={maskVariants}
-              className="relative"
-            >
-              <Picture
-                name="hero-cake"
-                alt="Illustrative editorial styling of a tall ivory celebration cake decorated with fresh cherries"
-                className="aspect-[4/5] w-full md:aspect-[4/5.2]"
-                sizes="(min-width: 1024px) 48vw, (min-width: 768px) 42vw, 100vw"
-                priority
-              />
+          {/* ---------------------------- Image --------------------------- */}
+          <div className="relative md:col-span-5 lg:col-span-5">
+            <MotionDiv variants={revealMask} initial="hidden" animate="visible">
+              {/* Butter arch behind the photo */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 border border-cocoa/8"
+                className="absolute inset-x-3 -top-3 bottom-8 rounded-t-[999px] rounded-b-3xl border-2 border-chocolate bg-butter md:inset-x-2"
               />
-            </motion.div>
+              <Picture
+                name="hero-cake"
+                alt="Illustrative editorial styling of a pink two-tier cake finished with sprinkles and fresh cherries"
+                className="relative aspect-[4/5] w-full rounded-t-[999px] rounded-b-3xl border-2 border-chocolate"
+                sizes="(min-width: 1024px) 40vw, (min-width: 768px) 38vw, 92vw"
+                priority
+              />
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.05, duration: 0.8, ease: EASE_SILK }}
-              className="absolute -bottom-5 left-4 right-4 bg-cream px-4 py-3 shadow-[0_2px_24px_rgba(37,26,22,0.10)] sm:-bottom-6 sm:left-6 sm:right-auto sm:max-w-[17rem] sm:px-5"
+              {/* Scalloped vanilla strip, clipping the bottom of the photo */}
+              <MotionDiv
+                variants={item}
+                className="relative z-10 -mt-10 mr-2 ml-8 rounded-2xl border-2 border-chocolate bg-vanilla px-4 py-3 shadow-[0_4px_0_#3A251F] sm:-mt-12"
+              >
+                <p className="text-[0.5625rem] font-bold uppercase tracking-[0.18em] text-cherry">
+                  Ordering
+                </p>
+                <p className="mt-1 text-[0.8125rem] leading-snug text-chocolate">
+                  Enquire on WhatsApp — the fastest way to reserve a cake.
+                </p>
+              </MotionDiv>
+            </MotionDiv>
+
+            {/* Stickers: decorative, aria-hidden, no information inside */}
+            <MotionSpan
+              aria-hidden="true"
+              variants={item}
+              className="animate-float absolute -left-2 top-6 z-20 hidden rotate-[-8deg] rounded-full border-2 border-chocolate bg-lavender px-3 py-1.5 font-display text-sm font-bold text-chocolate shadow-[0_3px_0_#3A251F] sm:block"
+              style={{ '--float-rot': '-8deg' }}
             >
-              <p className="text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-caramel-deep">
-                Ordering
-              </p>
-              <p className="mt-1 text-[0.8125rem] leading-snug text-ink-soft">
-                Enquire by WhatsApp or phone — the fastest way to reserve a cake.
-              </p>
-            </motion.div>
+              baked today
+            </MotionSpan>
+            <MotionSpan
+              aria-hidden="true"
+              variants={item}
+              className="animate-float absolute -right-1 bottom-24 z-20 hidden rotate-[7deg] rounded-full border-2 border-chocolate bg-pistachio px-3 py-1.5 font-display text-sm font-bold text-chocolate shadow-[0_3px_0_#3A251F] md:block"
+              style={{ '--float-rot': '7deg', animationDelay: '1.4s' }}
+            >
+              made to order
+            </MotionSpan>
           </div>
         </div>
       </div>
-
-      <div className="h-px w-full bg-line-soft" />
     </section>
   );
 }

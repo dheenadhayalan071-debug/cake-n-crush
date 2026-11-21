@@ -11,10 +11,10 @@ export default function NotFoundPage() {
         path="/404"
         noindex
       />
-      <section className="bg-cream">
+      <section className="bg-vanilla">
         <div className="container-page flex min-h-[62vh] flex-col items-start justify-center py-16 md:py-24">
           <p className="eyebrow">Error 404</p>
-          <h1 className="display-xl mt-5 max-w-[18ch]">This slice has gone missing.</h1>
+          <h1 className="display-lg mt-5 max-w-[18ch]">This slice has gone missing.</h1>
           <p className="lede mt-5">
             The page you were looking for is not here. The catalogue is a good place to
             start again.

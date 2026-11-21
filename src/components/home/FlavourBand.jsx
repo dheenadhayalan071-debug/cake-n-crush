@@ -1,5 +1,3 @@
-import { CakeSlice } from 'lucide-react';
-
 /**
  * FlavourBand
  * -----------
@@ -30,10 +28,10 @@ export default function FlavourBand() {
     <ul className="flex shrink-0 items-center">
       {BAND_FLAVOURS.map((flavour) => (
         <li key={flavour} className="flex items-center whitespace-nowrap">
-          <span className="px-5 font-display text-[0.95rem] italic text-cream/85 md:text-[1.05rem]">
+          <span className="px-5 font-display text-[1rem] italic text-vanilla/90 md:text-[1.1rem]">
             {flavour}
           </span>
-          <CakeSlice className="h-3 w-3 shrink-0 text-caramel-tint/45" aria-hidden="true" />
+          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-butter/70" />
         </li>
       ))}
     </ul>
@@ -41,7 +39,7 @@ export default function FlavourBand() {
 
   return (
     <section
-      className="overflow-hidden border-y border-cocoa/20 bg-cocoa py-4"
+      className="overflow-hidden border-y-2 border-chocolate bg-chocolate py-3.5"
       aria-label="Flavours in our catalogue"
     >
       <p className="sr-only">

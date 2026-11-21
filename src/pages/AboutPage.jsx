@@ -9,8 +9,9 @@ import Button from '../components/ui/Button.jsx';
 import { BUSINESS } from '../data/business.js';
 import { PRODUCTS } from '../data/products.js';
 import { bakerySchema } from '../lib/schema.js';
-import { useMotionVariants, revealMask } from '../lib/motion.js';
+import { revealMask } from '../lib/motion.js';
 import { m as motion } from 'framer-motion';
+import { MotionDiv } from '../components/ui/Motion.jsx';
 
 /**
  * About
@@ -20,7 +21,7 @@ import { m as motion } from 'framer-motion';
  * scale claims — none were supplied, so none are invented.
  */
 export default function AboutPage() {
-  const mask = useMotionVariants(revealMask);
+  const mask = revealMask;
   const jsonLd = useMemo(() => bakerySchema(), []);
   const totals = useMemo(() => {
     const egglessFlavours = PRODUCTS.filter((p) => p.categories.includes('eggless')).length;
@@ -33,7 +34,7 @@ export default function AboutPage() {
     <>
       <Seo
         title="About Cake N Crush — Bakery & Cake Shop in Madurai"
-        description="Cake N Crush is a bakery and cake shop in Park Town, Madurai, offering eggless cakes, celebration cakes, 1kg cakes, plum cakes and custom celebration designs."
+        description="Cake N Crush is a patisserie and cake shop in Park Town, Madurai, offering eggless cakes, celebration cakes, chocolate cakes, 1kg cakes, plum cakes and custom celebration designs."
         path="/about"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -43,12 +44,19 @@ export default function AboutPage() {
       />
 
       <PageHeader
+        tone="pistachio"
         eyebrow="About"
-        title="A neighbourhood patisserie, with a celebration at its centre."
-        lede="We are a bakery and cake shop in Park Town, Madurai. This is what we make, and how we would like ordering a cake to feel."
+        title={
+          <>
+            A neighbourhood patisserie, with a{' '}
+            <span className="display-script text-cherry">celebration</span> at its
+            centre.
+          </>
+        }
+        lede="We are a patisserie and cake shop in Park Town, Madurai. This is what we make, and how we would like ordering a cake to feel."
       />
 
-      <div className="bg-cream">
+      <div className="bg-vanilla">
         <div className="container-page">
           <div className="grid gap-10 py-14 md:grid-cols-12 md:gap-14 md:py-20">
             <div className="md:col-span-7">
@@ -57,7 +65,7 @@ export default function AboutPage() {
               </Reveal>
               <Reveal className="mt-6 space-y-5 text-base leading-relaxed text-ink-soft">
                 <p>
-                  Cake N Crush is located at No. 5, 12, RPK Complex in Thirupathi Nagar,
+                  Cake N Crush sits at No. 5, 12, RPK Complex in Thirupathi Nagar,
                   Park Town — part of the P&amp;T Nagar neighbourhood of Madurai.
                 </p>
                 <p>
@@ -80,7 +88,7 @@ export default function AboutPage() {
               </Reveal>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button to="/menu" variant="primary">
+                <Button to="/menu" variant="chocolate">
                   Explore the menu
                 </Button>
                 <Button to="/custom-cakes" variant="outline">
@@ -90,7 +98,7 @@ export default function AboutPage() {
             </div>
 
             <div className="md:col-span-5">
-              <motion.div
+              <MotionDiv
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.25 }}
@@ -98,16 +106,35 @@ export default function AboutPage() {
               >
                 <Picture
                   name="cat-celebration"
-                  alt="Illustrative editorial styling of a celebration cake with piped borders and fresh berries"
-                  className="aspect-[4/5] w-full"
+                  alt="Illustrative editorial styling of a strawberry celebration cake beneath a butter-yellow arch"
+                  className="aspect-[4/5] w-full rounded-[2rem] rounded-tr-none border-2 border-chocolate"
                   sizes="(min-width: 768px) 40vw, 100vw"
                   showPlaceholderNote
                 />
-              </motion.div>
+              </MotionDiv>
             </div>
           </div>
 
-          <hr className="rule" />
+          <hr className="rule my-0" />
+
+          <div className="grid gap-3 py-12 sm:grid-cols-2 lg:grid-cols-4 md:py-14">
+            {[
+              { value: totals.products, label: 'cakes on the menu', bg: 'bg-strawberry-soft' },
+              { value: totals.variants, label: 'priced variants', bg: 'bg-butter-soft' },
+              { value: totals.egglessFlavours, label: 'eggless flavours', bg: 'bg-pistachio-soft' },
+              { value: '3', label: 'plum cake sizes', bg: 'bg-lavender-soft' },
+            ].map((stat) => (
+              <Reveal
+                key={stat.label}
+                className={`rounded-2xl border-2 border-chocolate/10 px-5 py-4 ${stat.bg}`}
+              >
+                <p className="display-md text-chocolate">{stat.value}</p>
+                <p className="mt-1 text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-chocolate/55">
+                  {stat.label}
+                </p>
+              </Reveal>
+            ))}
+          </div>
 
           <div className="grid gap-10 py-14 md:grid-cols-12 md:gap-14 md:py-20">
             <div className="md:col-span-4">
@@ -154,10 +181,10 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="mb-16 grid gap-8 border border-line-soft bg-cream-deep/50 p-7 md:mb-24 md:grid-cols-12 md:p-10">
+          <div className="mb-16 grid gap-8 rounded-[2rem] border-2 border-chocolate bg-butter p-7 shadow-[0_5px_0_#3A251F] md:mb-24 md:grid-cols-12 md:p-10">
             <div className="md:col-span-8">
               <h2 className="display-md max-w-[22ch]">Planning something specific?</h2>
-              <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ink-soft">
+              <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-chocolate/75">
                 Share the date, the flavour and the idea. The bakery will tell you what is
                 possible before anything is confirmed.
               </p>
@@ -165,7 +192,7 @@ export default function AboutPage() {
             <div className="flex items-end md:col-span-4 md:justify-end">
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2 border-b border-ink/25 pb-1 text-[0.8125rem] font-semibold uppercase tracking-[0.1em] text-ink transition-colors hover:border-caramel hover:text-caramel-deep"
+                className="group inline-flex items-center gap-2 rounded-full bg-chocolate px-4 py-2.5 text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-vanilla transition-transform hover:-translate-y-0.5"
               >
                 Contact &amp; location
                 <ArrowRight

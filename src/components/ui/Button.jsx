@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import { cn } from '../../lib/cn.js';
 
 const VARIANTS = {
-  primary: 'btn btn-primary',
-  caramel: 'btn btn-caramel',
+  chocolate: 'btn btn-chocolate',
+  cherry: 'btn btn-cherry',
+  butter: 'btn btn-butter',
   outline: 'btn btn-outline',
-  light: 'btn btn-ghost-light',
+  light: 'btn btn-outline-light',
+  // Legacy aliases kept so existing pages keep working unchanged.
+  primary: 'btn btn-chocolate',
+  caramel: 'btn btn-cherry',
+  ghost: 'btn btn-outline',
 };
 
 /**
@@ -18,10 +23,10 @@ const VARIANTS = {
  * buttons on this site.
  */
 const Button = forwardRef(function Button(
-  { variant = 'primary', size, to, href, external, className = '', children, ...rest },
+  { variant = 'chocolate', size, to, href, external, className = '', children, ...rest },
   ref,
 ) {
-  const classes = cn(VARIANTS[variant] || VARIANTS.primary, size === 'sm' && 'btn-sm', className);
+  const classes = cn(VARIANTS[variant] || VARIANTS.chocolate, size === 'sm' && 'btn-sm', className);
 
   if (to) {
     return (
@@ -35,7 +40,10 @@ const Button = forwardRef(function Button(
     const externalProps =
       external === false
         ? {}
-        : { target: href.startsWith('http') ? '_blank' : undefined, rel: href.startsWith('http') ? 'noopener noreferrer' : undefined };
+        : {
+            target: href.startsWith('http') ? '_blank' : undefined,
+            rel: href.startsWith('http') ? 'noopener noreferrer' : undefined,
+          };
     return (
       <a ref={ref} href={href} className={classes} {...externalProps} {...rest}>
         {children}
