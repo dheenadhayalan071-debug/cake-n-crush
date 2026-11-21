@@ -1,15 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { AnimatePresence, m as motion } from 'framer-motion';
-import { Menu, X, Phone, MessageCircle } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { Menu, X, Phone, MessageCircle, MapPin, ArrowRight } from 'lucide-react';
 import Logo from '../ui/Logo.jsx';
 import Button from '../ui/Button.jsx';
 import { NAV_LINKS } from '../../data/site.js';
-import { BUSINESS, PHONE_HREF } from '../../data/business.js';
+import { BUSINESS, PHONE_HREF, MAPS_SEARCH_URL } from '../../data/business.js';
 import { buildWhatsAppUrl, generalEnquiryMessage } from '../../lib/whatsapp.js';
 import { cn } from '../../lib/cn.js';
 import { EASE_SILK } from '../../lib/motion.js';
+import { MotionDiv, MotionLi } from '../ui/Motion.jsx';
 
+/**
+ * Header
+ * ------
+ * A compact butter-yellow announcement strip (location · phone · a brand
+ * line, no invented offers) sits above a sticky nav that earns its shadow
+ * only once the page scrolls. The mobile drawer is a full-height panel with
+ * large serif links — built for thumbs, not a squeezed desktop bar.
+ */
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -18,19 +27,17 @@ export default function Header() {
   const panelRef = useRef(null);
   const toggleRef = useRef(null);
 
-  // Close the drawer on navigation.
   useEffect(() => {
     setOpen(false);
   }, [location.pathname, location.search]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock scroll + trap Escape while the drawer is open.
   useEffect(() => {
     if (!open) return undefined;
     const original = document.body.style.overflow;
@@ -52,31 +59,32 @@ export default function Header() {
 
   return (
     <>
+      {/* ---------------------- Announcement strip ---------------------- */}
       {!bannerDismissed ? (
-        <div className="relative z-50 bg-cocoa text-cream">
-          <div className="container-page flex items-center justify-between gap-4 py-2.5">
-            <p className="text-[0.6875rem] leading-snug tracking-[0.08em] text-cream/75">
-              <span className="font-semibold uppercase tracking-[0.16em] text-caramel-tint">
-                Park Town, Madurai
-              </span>
-              <span className="mx-2 hidden text-cream/30 sm:inline">/</span>
-              <span className="hidden sm:inline">
-                Cake previews &amp; prices on this site await owner approval
+        <div className="relative z-50 border-b-2 border-chocolate/10 bg-butter">
+          <div className="container-page flex items-center justify-between gap-3 py-2">
+            <p className="flex min-w-0 items-center gap-2 text-[0.625rem] font-bold uppercase tracking-[0.14em] text-chocolate sm:text-[0.6875rem]">
+              <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+              <span className="truncate">Park Town, Madurai</span>
+              <span aria-hidden="true" className="hidden h-1 w-1 shrink-0 rounded-full bg-chocolate/40 sm:block" />
+              <span className="hidden truncate font-semibold normal-case tracking-[0.02em] text-chocolate/80 sm:inline">
+                Little moments, big celebrations — baked to order.
               </span>
             </p>
-            <div className="flex shrink-0 items-center gap-3">
+            <div className="flex shrink-0 items-center gap-2">
               <a
                 href={PHONE_HREF}
-                className="hidden items-center gap-1.5 text-[0.6875rem] font-medium tracking-wide text-cream/80 transition-colors hover:text-cream sm:flex"
+                className="inline-flex items-center gap-1.5 text-[0.625rem] font-bold tracking-[0.06em] text-chocolate transition-opacity hover:opacity-70 sm:text-[0.6875rem]"
               >
                 <Phone className="h-3 w-3" aria-hidden="true" />
-                {BUSINESS.phoneDisplay}
+                <span className="hidden xs:inline sm:inline">{BUSINESS.phoneDisplay}</span>
+                <span className="sm:hidden">Call</span>
               </a>
               <button
                 type="button"
                 onClick={() => setBannerDismissed(true)}
-                className="-mr-1 p-1 text-cream/60 transition-colors hover:text-cream"
-                aria-label="Dismiss notice bar"
+                className="-mr-1 rounded-full p-1.5 text-chocolate/60 transition-colors hover:bg-chocolate/10 hover:text-chocolate"
+                aria-label="Dismiss announcement"
               >
                 <X className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
@@ -85,25 +93,26 @@ export default function Header() {
         </div>
       ) : null}
 
+      {/* ------------------------------ Nav ----------------------------- */}
       <header
         className={cn(
-          'sticky top-0 z-40 border-b transition-all duration-500',
+          'sticky top-0 z-40 border-b-2 transition-all duration-300',
           scrolled
-            ? 'border-line/80 bg-cream/92 backdrop-blur-md'
-            : 'border-transparent bg-cream',
+            ? 'border-chocolate/10 bg-vanilla/95 shadow-[0_6px_24px_-12px_rgba(58,37,31,0.35)] backdrop-blur-md'
+            : 'border-transparent bg-vanilla',
         )}
       >
-        <div className="container-page flex h-[4.25rem] items-center justify-between gap-6 md:h-[4.75rem]">
+        <div className="container-page flex h-[4.25rem] items-center justify-between gap-4 md:h-[4.75rem]">
           <Link
             to="/"
-            className="group flex items-center py-2"
+            className="group flex shrink-0 items-center py-2"
             aria-label="Cake N Crush — home"
           >
-            <Logo className="transition-opacity duration-300 group-hover:opacity-80" />
+            <Logo className="transition-transform duration-300 group-hover:-rotate-2" />
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">
-            <ul className="flex items-center gap-8">
+            <ul className="flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <li key={link.to}>
                   <NavLink
@@ -111,25 +120,14 @@ export default function Header() {
                     end={link.to === '/'}
                     className={({ isActive }) =>
                       cn(
-                        'relative py-2 text-[0.8125rem] font-medium tracking-[0.02em] transition-colors duration-300',
+                        'relative block rounded-full px-3.5 py-2 text-[0.8125rem] font-semibold transition-colors duration-200',
                         isActive
-                          ? 'text-ink'
-                          : 'text-ink-soft hover:text-ink',
+                          ? 'bg-chocolate text-vanilla'
+                          : 'text-ink-soft hover:bg-butter-soft hover:text-chocolate',
                       )
                     }
                   >
-                    {({ isActive }) => (
-                      <span className="relative">
-                        {link.label}
-                        <span
-                          aria-hidden="true"
-                          className={cn(
-                            'absolute -bottom-1.5 left-0 h-px bg-caramel transition-all duration-500',
-                            isActive ? 'w-full' : 'w-0',
-                          )}
-                        />
-                      </span>
-                    )}
+                    {link.label}
                   </NavLink>
                 </li>
               ))}
@@ -141,13 +139,13 @@ export default function Header() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center gap-2 border border-line px-4 py-2.5 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-cream md:inline-flex"
+              className="hidden items-center gap-2 rounded-full border-2 border-chocolate px-4 py-2 text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-chocolate transition-colors duration-200 hover:bg-pistachio md:inline-flex"
             >
               <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
               WhatsApp
             </a>
-            <Button to="/custom-cakes" className="hidden sm:inline-flex" size="sm">
-              Custom Cake
+            <Button to="/custom-cakes" variant="cherry" size="sm" className="hidden sm:inline-flex">
+              Custom cake
             </Button>
             <button
               ref={toggleRef}
@@ -156,89 +154,83 @@ export default function Header() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? 'Close menu' : 'Open menu'}
-              className="-mr-2 inline-flex h-11 w-11 items-center justify-center text-ink lg:hidden"
+              className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-chocolate text-chocolate transition-colors hover:bg-butter lg:hidden"
             >
-              {open ? (
-                <X className="h-5 w-5" aria-hidden="true" />
-              ) : (
-                <Menu className="h-5 w-5" aria-hidden="true" />
-              )}
+              {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </button>
           </div>
         </div>
       </header>
 
+      {/* --------------------------- Mobile nav ------------------------- */}
       <AnimatePresence>
         {open ? (
-          <motion.div
+          <MotionDiv
             key="mobile-menu"
             id="mobile-menu"
             ref={panelRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-30 bg-cream lg:hidden"
-            style={{ top: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 overflow-hidden bg-vanilla lg:hidden"
           >
-            <div className="flex h-full flex-col overflow-y-auto pb-8 pt-[5.5rem]">
+            <div className="flex h-full flex-col overflow-y-auto pb-10 pt-[5.25rem]">
               <nav aria-label="Mobile" className="container-page">
-                <ul className="divide-y divide-line-soft border-y border-line-soft">
+                <ul className="border-t-2 border-chocolate/10">
                   {NAV_LINKS.map((link, index) => (
-                    <motion.li
+                    <MotionLi
                       key={link.to}
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.04 * index + 0.05, duration: 0.4, ease: EASE_SILK }}
+                      transition={{ delay: 0.03 * index + 0.04, duration: 0.35, ease: EASE_SILK }}
+                      className="border-b-2 border-chocolate/10"
                     >
                       <NavLink
                         to={link.to}
                         end={link.to === '/'}
                         className={({ isActive }) =>
                           cn(
-                            'flex items-baseline justify-between py-4 font-display text-[1.75rem] tracking-[-0.02em] transition-colors',
-                            isActive ? 'text-caramel-deep' : 'text-ink',
+                            'flex items-center justify-between gap-4 py-3.5',
+                            isActive ? 'text-cherry' : 'text-chocolate',
                           )
                         }
                       >
-                        {link.label}
-                        <span className="font-sans text-[0.625rem] uppercase tracking-[0.2em] text-ink-faint">
-                          0{index + 1}
-                        </span>
+                        <span className="display-md">{link.label}</span>
+                        <ArrowRight className="h-4 w-4 shrink-0 opacity-40" aria-hidden="true" />
                       </NavLink>
-                    </motion.li>
+                    </MotionLi>
                   ))}
                 </ul>
               </nav>
 
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
+              <MotionDiv
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.32, duration: 0.45, ease: EASE_SILK }}
-                className="container-page mt-8 flex flex-col gap-3"
+                transition={{ delay: 0.24, duration: 0.4, ease: EASE_SILK }}
+                className="container-page mt-7 flex flex-col gap-3"
               >
-                <Button to="/custom-cakes" variant="primary">
-                  Design a custom cake
-                </Button>
-                <Button href={whatsappUrl} variant="caramel">
+                <Button href={whatsappUrl} variant="chocolate" className="w-full">
                   <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   Chat on WhatsApp
                 </Button>
-                <div className="mt-2 grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <Button href={PHONE_HREF} variant="outline">
                     <Phone className="h-3.5 w-3.5" aria-hidden="true" />
                     Call
                   </Button>
-                  <Button to="/contact" variant="outline">
-                    Find us
+                  <Button href={MAPS_SEARCH_URL} variant="outline">
+                    <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                    Directions
                   </Button>
                 </div>
-                <p className="mt-4 text-center text-[0.6875rem] leading-relaxed text-ink-faint">
+
+                <address className="mt-4 not-italic text-center text-[0.6875rem] leading-relaxed text-ink-soft">
                   {BUSINESS.addressOneLine}
-                </p>
-              </motion.div>
+                </address>
+              </MotionDiv>
             </div>
-          </motion.div>
+          </MotionDiv>
         ) : null}
       </AnimatePresence>
     </>

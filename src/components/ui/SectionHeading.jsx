@@ -35,9 +35,9 @@ export default function SectionHeading({
         <Tag
           className={cn(
             size === 'lg' ? 'display-lg' : 'display-md',
-            'max-w-[20ch]',
+            'max-w-[22ch]',
             centred && 'mx-auto max-w-[26ch]',
-            dark ? 'text-cream' : 'text-ink',
+            dark ? 'text-vanilla' : 'text-chocolate',
           )}
         >
           {title}
@@ -46,8 +46,9 @@ export default function SectionHeading({
       {lede ? (
         <p
           className={cn(
-            'lede',
-            dark && 'text-cream/70',
+            'text-[0.9375rem] leading-relaxed md:text-base',
+            dark ? 'text-vanilla/75' : 'text-ink-soft',
+            'max-w-[42ch]',
             centred && 'mx-auto text-center',
           )}
         >

@@ -2,90 +2,105 @@
 
 ## Supplied by the client
 
-**None.** The brief referenced a logo and menu screenshots as "supplied with the project",
-but the repository contained no images, fonts, logos or PDFs at all (verified with a
-recursive scan of every image extension — zero results).
+**No original bakery photography, logo file or brand sheet has been supplied.** Every
+visual in this build therefore falls into one of two honestly labelled categories:
+**illustrative editorial imagery** or **typographic stand-ins**.
 
-Everything visual in this build therefore falls into one of two honest categories:
-**clearly labelled illustrative imagery** or **typographic stand-ins**.
+The Phase-2 redesign regenerated the whole image set to match the colourful direction.
+These are still art-direction plates, not photographs of real Cake N Crush cakes, and
+they are labelled as such in the UI and in code.
 
-## What ships
+---
 
-### 1. Photography — illustrative editorial (placeholder)
+## 1. Replacement status
 
-15 images, AI-generated as *art direction reference*, not as photographs of real products.
-Each is flagged `placeholder: true` in `src/data/imagery.js`; the `Picture` component can
-render a caption on request and every alt text begins with "Illustrative…".
+| Asset | Status | Notes |
+| --- | --- | --- |
+| Logo | ⚠️ **Provisional typographic lockup** | `src/components/ui/Logo.jsx` draws a cake mark + wordmark in SVG. Replace with the real logo file — one component, one line. |
+| Photography (15 plates) | ⚠️ **Placeholder** | `placeholder: true` in `src/data/imagery.js`; alt text begins “Illustrative…”. |
+| Favicon | ⚠️ Provisional | `public/favicon.svg` is derived from the placeholder mark. |
+| Social share image | ⚠️ Placeholder | `/images/hero-cake/hero-cake-900.webp`. A dedicated 1200×630 card is recommended. |
 
-| Key | Purpose | Used on |
-| --- | ------- | ------- |
-| `hero-cake` | Hero, ivory cake with cherries | Home hero (priority), gallery |
-| `brand-piping` | Baker piping cream | Brand intro, gallery |
-| `cat-celebration` | Celebration cake with berries | Collection tile, product cards, about, gallery |
-| `cat-eggless` | Eggless vanilla cake | Collection tile, eggless cards, gallery |
-| `cat-1kg` | Large chocolate cake | Collection tile, gallery |
-| `cat-plum` | Plum loaves | Collection tile, plum cards, gallery |
-| `cat-pastries` | Pastries on a platter | Collection tile, gallery |
-| `cat-brownies` | Brownie stack | Brownies collection tile, gallery |
-| `gallery-blackforest` | Black forest cake | Gallery |
-| `gallery-redvelvet` | Red velvet cake | Gallery |
-| `gallery-butterscotch` | Butterscotch cake | Gallery |
-| `gallery-custom` | Two-tier bespoke cake | Custom Cake Studio aside, gallery |
-| `texture-chocolate` | Ganache macro | Signature section, gallery |
-| `texture-cream` | Whipped cream macro | Custom promo, gallery |
-| `texture-berries` | Berries on cream | Gallery |
+### How to replace a photograph
 
-Every gallery item has its own frame — 12 items across 12 distinct images, with `hero-cake`,
-`cat-plum` and the three `texture-*` macros completing the set.
+1. Drop the real file into `assets-src/` using the existing key name (e.g. `hero-cake.jpg`).
+2. `npm run images` — regenerates 480/900 px WebP + LQIP + `image-manifest.js`.
+3. Point the product/category at the key in `src/data/imagery.js`.
+4. Delete `placeholder: true` for that key. Alt text automatically switches from
+   “Illustrative editorial styling of …” to “Photograph of …”.
 
-**Replacing them** — drop originals into `assets-src/` with the same keys (e.g.
-`hero-cake.jpg`), run `npm run images`, then set `placeholder: false` (or delete the flag)
-in `src/data/imagery.js`.
+---
 
-### 2. Brand assets
+## 2. The 15 plates
 
-| Asset | Status | File |
-| ----- | ------ | ---- |
-| Logo lockup | ⚠️ Provisional typographic version | `src/components/ui/Logo.jsx` |
-| Favicon | Generated from the same mark | `public/favicon.svg` |
-| Open Graph image | Currently the hero photograph | `/images/hero-cake/hero-cake-900.webp` |
+All are 4:5 portrait source JPEGs unless noted, exported to WebP at 480 px and 900 px.
+Total shipped weight: **1.8 MB across 30 files**, all lazy-loaded except the hero.
 
-The real logo replaces the SVG `<LogoMark/>`; the component's props (`tone`, `compact`) stay.
+| Key | What it shows | Used on |
+| --- | --- | --- |
+| `hero-cake` | Pink two-tier cake, sprinkles, cherries | Hero (priority preload), gallery |
+| `brand-piping` | Baker piping pink rosettes onto a pastel cake | Brand intro, gallery |
+| `cat-celebration` | Strawberry cake under a butter-yellow arch | Celebration tile + cards, about, gallery |
+| `cat-eggless` | Ivory eggless cake with a strawberry, pistachio linen | Eggless tile + cards, gallery |
+| `cat-1kg` | Dark chocolate & cherry cake with ganache drip | Chocolate tile + 1 kg cards, gallery |
+| `cat-plum` | Plum loaves with nuts on a wooden board | Plum tile + cards, gallery |
+| `cat-pastries` | Éclair, mille-feuille and berry tart on lavender/sky linen | Pastries tile, gallery |
+| `cat-brownies` | Stack of walnut brownies | Brownies tile, gallery |
+| `gallery-blackforest` | Black forest gateau with cherries | Black Forest cards, gallery |
+| `gallery-redvelvet` | Red velvet with cream cheese frosting | Red Velvet cards, gallery |
+| `gallery-butterscotch` | Butterscotch cake with caramel drip | Butterscotch cards, gallery |
+| `gallery-custom` | Two-tier bespoke cake, gold leaf, dried florals | Custom studio, gallery |
+| `texture-chocolate` | Macro ganache with cherry and curls | Chocolate interlude, story, cards |
+| `texture-cream` | Macro vanilla bean buttercream | Gallery |
+| `texture-berries` | Berries and sprinkles on pink cream | Story, berry-flavour cards, gallery |
 
-### 3. Typography
+### Products mapped to a placeholder
 
-| Family | Files | Size | Source |
-| ------ | ----- | ---- | ------ |
-| Fraunces (variable, `opsz` preserved) | `fraunces-display.woff2`, `-italic.woff2` | 67 kB + 82 kB | `@fontsource-variable/fraunces`, latin subset |
-| Instrument Sans (variable) | `instrument-sans.woff2` | 30 kB | `@fontsource-variable/instrument-sans`, latin subset |
+| Product | Plate |
+| --- | --- |
+| Black Forest | `gallery-blackforest` |
+| Butterscotch · Scotch Forest | `gallery-butterscotch` |
+| Red Velvet | `gallery-redvelvet` |
+| Creamy Vanilla · White Forest | `cat-eggless` |
+| Strawberry · Blackcurrant · Blueberry | `texture-berries` |
+| Chocolate Truffle · Death By Chocolate | `texture-chocolate` |
+| Double Choco Chip · Belgium Chocolate | `cat-1kg` |
+| Royal Plum 100g/250g · Rich Plum 500g | `cat-plum` |
 
-Both are SIL Open Font License. Served from `/fonts/` with immutable caching and preloaded.
+Mango and Triple Layer fall back to the celebration plate. **Six products share a frame
+with a sibling flavour** — the first thing real photography should fix.
 
-## Image pipeline
+---
 
-`scripts/build-images.mjs` (runs automatically before `npm run build`):
+## 3. Fonts
 
-1. Reads every JPG/PNG/WebP in `assets-src/`.
-2. Emits WebP at **480 / 900 / 1400 px** (skipping widths larger than the source) with
-   quality 78, into `public/images/<key>/`.
-3. Generates a 24px blurred WebP and inlines it as a base64 LQIP.
-4. Writes `src/components/media/image-manifest.js` with `src`, `srcset`, intrinsic
-   `width`/`height` (no layout shift) and the LQIP.
+Self-hosted, `public/fonts/`, preloaded in `index.html`.
 
-Total committed image payload: **~1.8 MB** across 45 WebP files (3 widths × 15 images). The
-largest single derivative is 128 kB; the hero is 47 kB at 900px, so a phone hero download is
-a fraction of that.
+| File | Size | Role |
+| --- | --- | --- |
+| `fraunces-var.woff2` | 121 kB | Variable display serif, `wght 300–900` + `SOFT`/`WONK`/`opsz` |
+| `fraunces-var-italic.woff2` | 150 kB | Italic counterpart (display-script words) |
+| `instrument-sans.woff2` | 30 kB | Variable body sans |
 
-`Picture` then:
+Both are SIL Open Font License. `fraunces-display.woff2` and
+`fraunces-display-italic.woff2` remain on disk but are **no longer referenced** — they can
+be deleted to save 148 kB from the repo (they are not shipped in the bundle).
 
-- serves `srcset`/`sizes` so phones download the 480px file,
-- lazy-loads everything except the hero (`loading="lazy"`, `decoding="async"`),
-- sets `fetchpriority="high"` + preload on the hero,
-- reserves space with `width`/`height` before load,
-- fades the LQIP out when the real image arrives.
+---
 
-## What is *not* in the repository
+## 4. Imagery not invented
 
-- No client photographs, no menu screenshots (none were provided).
-- No third-party stock photography — nothing unlicensed ships.
-- No video, no Lottie files, no icon fonts, no tracking pixels.
+- ❌ No photographs presented as the bakery's actual cakes.
+- ❌ No stock photos of other bakeries' products.
+- ❌ No fake customer photos, avatars or review screenshots.
+- ❌ No award badges, certification marks or payment-provider logos.
+
+---
+
+## 5. Still needed before launch
+
+1. **The real logo** (SVG or PNG ≥ 512 px) — replaces `LogoMark`.
+2. **Product photography** — 18 products, ideally one frame per flavour.
+3. **Interior / counter photographs** — the story section currently uses texture macros.
+4. **A social share image** at 1200×630 with the wordmark and a cake.
+5. **A 512×512 icon** and maskable icon for installability, if a PWA manifest is added.

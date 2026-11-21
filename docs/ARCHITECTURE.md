@@ -57,20 +57,23 @@ Layout
 ├─ Footer
 └─ MobileActionBar (sticky Call / WhatsApp / Custom on <md, hidden in the form route)
 
-HomePage
-├─ Hero (mask reveal, priority image, dual CTA + trust row)
-├─ BrandIntro (editorial two-column + 2 stat blocks derived from data)
-├─ FeaturedCakes (4 curated cards → shared dialog)
-├─ CategoryGrid (4 collection tiles, live counts)
-├─ SignatureCollection (dark full-bleed, real entry prices)
-├─ CustomCakePromo (three-step explainer)
-├─ WhyUs (four verifiable points)
-├─ TestimonialBlock (renders an honest empty state while data is empty)
-└─ VisitStrip (address, copy, directions, call, honest pending notes)
+HomePage  (12 blocks — colour field / photograph / colour field rhythm)
+├─ Hero                 (asymmetric arch composition, priority image, dual CTA)
+├─ BrandIntro           (two-column + quoted card + 2 stat blocks from data)
+├─ FeaturedCakes        (4 curated cards → shared dialog; NOT a bestseller claim)
+├─ FlavourBand          (CSS marquee, chocolate band, data-derived flavours)
+├─ CategoryGrid         (6 collection tiles, per-collection colour, live counts)
+├─ SignatureCollection  (chocolate full-bleed, real entry prices)
+├─ CustomCakePromo      (three-step explainer + bespoke photograph)
+├─ BrandStory           (photo collage, verified facts only)
+├─ TestimonialBlock     (honest empty state while TESTIMONIALS is empty)
+├─ WhyUs                (four verifiable points)
+└─ VisitStrip           (address, copy, directions, call, honest pending notes)
 ```
 
 Shared primitives: `Button`, `Picture`, `Reveal`, `StaggerGroup`, `StaggerItem`,
-`SectionHeading`, `Tag`, `Logo`, `PageHeader`, `Seo`.
+`Motion` (the only legal home for `motion.*`), `SectionHeading`, `Tag`, `Logo`,
+`PageHeader` (takes a `tone` colour field), `Seo`.
 
 ## State management
 
@@ -91,7 +94,7 @@ npm run build
  └─ vite build                           → dist/ (index.html, hashed CSS/JS, images, fonts)
 ```
 
-`npm run verify` = `audit` (no-fabrication + imagery integrity) → `test` (146 tests) → `build`.
+`npm run verify` = `audit` (no-fabrication + imagery integrity) → `test` (158 tests) → `build`.
 
 ## Key decisions & trade-offs
 

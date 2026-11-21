@@ -11,6 +11,7 @@ no ranking outcome is promised anywhere.
 | celebration cakes in Madurai | Collection name, category blurb, menu metadata |
 | eggless cakes in Madurai | `/menu?category=eggless`, collection page copy, menu metadata |
 | custom cakes in Madurai | `/custom-cakes` title, description, H1-adjacent copy |
+| chocolate cakes in Madurai | Derived `chocolate` collection, homepage chocolate-list block, menu metadata |
 | 1kg / plum cakes | Collection pages, product schema offer names |
 
 Copy is written for people first: no keyword stuffing, no hidden text, no doorway pages.

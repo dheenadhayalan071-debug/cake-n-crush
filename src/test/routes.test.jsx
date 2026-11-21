@@ -42,10 +42,10 @@ describe('home page', () => {
   it('renders the hero headline and both primary CTAs', () => {
     renderAt('/');
     expect(
-      screen.getByRole('heading', { level: 1, name: /every celebration deserves something extraordinary/i }),
+      screen.getByRole('heading', { level: 1, name: /life is better with cake/i }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /explore our menu/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /design a custom cake/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /explore the menu/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /design your cake/i })).toBeInTheDocument();
   });
 
   it('exposes working phone and WhatsApp links', () => {
@@ -58,7 +58,7 @@ describe('home page', () => {
 
   it('does not render fabricated testimonials', () => {
     renderAt('/');
-    expect(screen.getByText(/no reviews published yet/i)).toBeInTheDocument();
+    expect(screen.getByText(/we have not published reviews yet/i)).toBeInTheDocument();
   });
 
   it('renders the primary navigation', () => {
@@ -142,7 +142,7 @@ describe('gallery page', () => {
   it('renders gallery items and the placeholder disclaimer', () => {
     renderAt('/gallery');
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByText(/12 images/i)).toBeInTheDocument();
+    expect(screen.getByText(/15 images/i)).toBeInTheDocument();
     expect(screen.getAllByText(/illustrative editorial images/i).length).toBeGreaterThan(0);
   });
 
@@ -150,7 +150,7 @@ describe('gallery page', () => {
     const user = userEvent.setup();
     renderAt('/gallery');
     await user.click(screen.getByRole('button', { name: 'Chocolate' }));
-    expect(screen.getByText(/3 images/i)).toBeInTheDocument();
+    expect(screen.getByText(/4 images/i)).toBeInTheDocument();
   });
 });
 

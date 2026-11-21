@@ -204,8 +204,13 @@ const FEATURED_IDS = ['black-forest', 'death-by-chocolate', 'red-velvet', 'butte
 
 export const PRODUCTS = catalogue.map((product) => {
   const prices = product.variants.map((variant) => variant.price);
+  const categories =
+    product.tone === 'chocolate' && !product.categories.includes('chocolate')
+      ? [...product.categories, 'chocolate']
+      : product.categories;
   return {
     ...product,
+    categories,
     /** Lowest price across variants — never presented as "from" without notes. */
     priceFrom: Math.min(...prices),
     priceTo: Math.max(...prices),
@@ -241,6 +246,14 @@ export const CATEGORIES = [
     kicker: '500 g',
     blurb:
       'The same celebration flavours, made eggless. Prices shown per flavour and weight.',
+  },
+  {
+    id: 'chocolate',
+    name: 'Chocolate Cakes',
+    shortName: 'Chocolate',
+    kicker: 'Truffle · ganache',
+    blurb:
+      'The chocolate-led half of the counter — truffle, ganache and layered chocolate cakes, priced per weight and dietary option.',
   },
   {
     id: 'onekg',

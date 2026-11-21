@@ -117,16 +117,28 @@ describe('catalogue', () => {
     expect(blackForest.priceTo).toBe(840);
   });
 
-  it('has categories matching the brief plus the two pending ones', () => {
+  it('has categories matching the brief plus the derived chocolate collection', () => {
     expect(CATEGORIES.map((c) => c.id)).toEqual([
       'celebration',
       'eggless',
+      'chocolate',
       'onekg',
       'plum',
       'pastries',
       'brownies',
     ]);
     expect(PENDING_CATEGORIES).toEqual(['pastries', 'brownies']);
+  });
+
+  it('derives the chocolate collection from product tone, never by hand', () => {
+    const chocolate = PRODUCTS.filter((p) => p.categories.includes('chocolate'));
+    expect(chocolate.length).toBeGreaterThan(0);
+    chocolate.forEach((product) => expect(product.tone).toBe('chocolate'));
+    PRODUCTS.forEach((product) => {
+      if (product.tone === 'chocolate') {
+        expect(product.categories).toContain('chocolate');
+      }
+    });
   });
 
   it('prices pastries and brownies at nothing (not invented)', () => {

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { AnimatePresence, m as motion } from 'framer-motion';
-import { SlidersHorizontal, X, Search, AlertCircle } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { SlidersHorizontal, X, Search, Info, MessageCircle } from 'lucide-react';
 import Seo from '../components/seo/Seo.jsx';
 import PageHeader from '../components/ui/PageHeader.jsx';
 import ProductCard from '../components/product/ProductCard.jsx';
@@ -12,6 +12,7 @@ import { buildWhatsAppUrl, generalEnquiryMessage } from '../lib/whatsapp.js';
 import { menuItemListSchema, bakerySchema } from '../lib/schema.js';
 import { cn } from '../lib/cn.js';
 import { SITE_URL } from '../data/site.js';
+import { MotionDiv } from '../components/ui/Motion.jsx';
 
 const DIETARY_FILTERS = [
   { id: 'all', label: 'All' },
@@ -25,6 +26,18 @@ const WEIGHT_FILTERS = [
   { id: '1kg', label: '1 kg' },
   { id: 'small', label: '100–250 g' },
 ];
+
+/** Per-collection chip colour, so the nav reads as a palette not a list. */
+const CHIP_TONE = {
+  all: 'bg-chocolate text-vanilla',
+  celebration: 'bg-strawberry',
+  eggless: 'bg-pistachio',
+  chocolate: 'bg-butter',
+  onekg: 'bg-orange',
+  plum: 'bg-lavender',
+  pastries: 'bg-sky',
+  brownies: 'bg-cherry',
+};
 
 function matchesWeight(product, weightFilter) {
   if (weightFilter === 'all') return true;
@@ -46,10 +59,10 @@ export default function MenuPage() {
   const [weight, setWeight] = useState('all');
   const [query, setQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const resultsRef = useRef(null);
 
   const { openProduct, dialog } = useProductDetail();
 
-  // Deep link: /menu?product=red-velvet opens the detail dialog once.
   useEffect(() => {
     if (!productParam) return;
     if (PRODUCTS.some((product) => product.id === productParam)) {
@@ -57,7 +70,6 @@ export default function MenuPage() {
     }
   }, [productParam, openProduct]);
 
-  // Keep the URL shareable when the category changes.
   useEffect(() => {
     const next = new URLSearchParams(searchParams);
     if (category === 'all') next.delete('category');
@@ -99,6 +111,15 @@ export default function MenuPage() {
     setCategory('all');
   }
 
+  function selectCategory(id) {
+    setCategory(id);
+    // On mobile the nav is a long horizontal scroller; nudge the results into
+    // view so the tap feels like it did something.
+    if (window.matchMedia('(max-width: 1023px)').matches) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   const whatsappUrl = buildWhatsAppUrl(
     generalEnquiryMessage('menu page — I could not find what I was looking for'),
   );
@@ -109,7 +130,7 @@ export default function MenuPage() {
     <>
       <Seo
         title="Our Menu — Cakes, Eggless Cakes & Plum Cakes in Madurai"
-        description="Browse the Cake N Crush catalogue: celebration cakes, eggless cakes, 1kg cakes and plum cakes in Madurai, with the exact price for every weight and dietary variant."
+        description="Browse the Cake N Crush catalogue: celebration cakes, eggless cakes, chocolate cakes, 1kg cakes and plum cakes in Madurai, with the exact price for every weight and dietary variant."
         path="/menu"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -119,32 +140,44 @@ export default function MenuPage() {
       />
 
       <PageHeader
+        tone="butter"
         eyebrow="The catalogue"
-        title="Every cake, every variant, every price."
-        lede="Select a collection, then choose the exact weight and dietary option. Prices are shown per variant and update with your selection."
+        title={
+          <>
+            Every cake, every variant,{' '}
+            <span className="display-script text-cherry">every price</span>.
+          </>
+        }
+        lede="Pick a collection, then choose the exact weight and dietary option. The price updates with your selection — and the WhatsApp button carries it for you."
         aside={
-          <div className="border border-line bg-shell/60 p-4 text-[0.75rem] leading-relaxed text-ink-soft">
+          <div className="rounded-2xl border-2 border-chocolate bg-vanilla p-4 text-[0.75rem] leading-relaxed text-ink-soft shadow-[0_4px_0_#3A251F]">
             <p className="flex items-start gap-2">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-caramel-deep" aria-hidden="true" />
-              Prices are provisional and awaiting owner approval. Availability is
-              confirmed by the bakery on WhatsApp.
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-cherry" aria-hidden="true" />
+              <span>
+                Prices are provisional and awaiting owner approval. Availability is
+                confirmed by the bakery on WhatsApp.
+              </span>
             </p>
           </div>
         }
       />
 
-      <section className="border-b border-line-soft bg-cream" aria-label="Catalogue filters">
+      {/* --------------------------- Category nav --------------------------- */}
+      <section
+        className="sticky top-[4.25rem] z-20 border-b-2 border-chocolate/10 bg-vanilla/95 backdrop-blur-md md:top-[4.75rem]"
+        aria-label="Catalogue filters"
+      >
         <div className="container-page">
-          <div className="no-scrollbar flex gap-1 overflow-x-auto py-4 lg:gap-2">
+          <div className="no-scrollbar flex gap-2 overflow-x-auto py-3">
             <button
               type="button"
-              onClick={() => setCategory('all')}
+              onClick={() => selectCategory('all')}
               aria-pressed={category === 'all'}
               className={cn(
-                'shrink-0 border px-4 py-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.1em] transition-all duration-300',
+                'shrink-0 rounded-full border-2 border-chocolate px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.06em] transition-transform',
                 category === 'all'
-                  ? 'border-ink bg-ink text-cream'
-                  : 'border-line text-ink-soft hover:border-ink/40 hover:text-ink',
+                  ? CHIP_TONE.all
+                  : 'bg-vanilla text-chocolate hover:bg-butter-soft',
               )}
             >
               All cakes
@@ -153,23 +186,20 @@ export default function MenuPage() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setCategory(item.id)}
+                onClick={() => selectCategory(item.id)}
                 aria-pressed={category === item.id}
                 className={cn(
-                  'shrink-0 border px-4 py-2.5 text-[0.75rem] font-semibold uppercase tracking-[0.1em] transition-all duration-300',
+                  'shrink-0 rounded-full border-2 border-chocolate px-3.5 py-1.5 text-[0.6875rem] font-bold uppercase tracking-[0.06em] transition-transform',
                   category === item.id
-                    ? 'border-ink bg-ink text-cream'
-                    : 'border-line text-ink-soft hover:border-ink/40 hover:text-ink',
+                    ? CHIP_TONE[item.id]
+                    : 'bg-vanilla text-chocolate hover:bg-butter-soft',
                 )}
               >
                 {item.shortName}
                 {PENDING_CATEGORIES.includes(item.id) ? (
-                  <>
-                    {' '}
-                    <span className="ml-1 rounded-full bg-caramel/15 px-1.5 py-0.5 text-[0.5625rem] tracking-[0.08em] text-caramel-deep">
-                      Menu pending
-                    </span>
-                  </>
+                  <span className="ml-1.5 text-[0.5rem] font-black tracking-[0.1em] opacity-60">
+                    pending
+                  </span>
                 ) : null}
               </button>
             ))}
@@ -177,22 +207,23 @@ export default function MenuPage() {
         </div>
       </section>
 
-      <div className="bg-cream pb-20 pt-8 md:pb-24">
+      <div ref={resultsRef} className="bg-vanilla pb-20 pt-8 md:pb-24">
         <div className="container-page">
+          {/* ------------------------ Header + search ------------------------ */}
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="font-display text-2xl text-ink">
+              <h2 className="display-md">
                 {activeCategory ? activeCategory.name : 'All cakes'}
               </h2>
               <p className="mt-2 max-w-xl text-[0.875rem] leading-relaxed text-ink-soft">
                 {activeCategory
                   ? activeCategory.blurb
-                  : 'The complete Cake N Crush catalogue — celebration, eggless, 1kg and plum cakes.'}
+                  : 'The complete Cake N Crush catalogue — celebration, eggless, chocolate, 1kg and plum cakes.'}
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="relative">
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1 md:flex-none">
                 <label htmlFor="menu-search" className="sr-only">
                   Search cakes by name
                 </label>
@@ -206,7 +237,7 @@ export default function MenuPage() {
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search cakes"
-                  className="field h-10 w-full py-2 pl-9 pr-3 text-[0.8125rem] sm:min-w-[11rem] md:w-52"
+                  className="field h-10 w-full rounded-full py-2 pl-9 pr-3 text-[0.8125rem] md:w-52"
                 />
               </div>
               <button
@@ -214,12 +245,12 @@ export default function MenuPage() {
                 onClick={() => setFiltersOpen((open) => !open)}
                 aria-expanded={filtersOpen}
                 aria-controls="advanced-filters"
-                className="relative inline-flex h-10 items-center gap-2 border border-line bg-shell px-3.5 text-[0.75rem] font-semibold text-ink transition-colors hover:border-ink/40"
+                className="relative inline-flex h-10 shrink-0 items-center gap-2 rounded-full border-2 border-chocolate bg-vanilla px-3.5 text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-chocolate transition-colors hover:bg-butter-soft"
               >
                 <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
                 Filters
                 {activeFilterCount > 0 ? (
-                  <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-caramel px-1 text-[0.5625rem] text-white">
+                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-cherry px-1 text-[0.5625rem] text-white">
                     {activeFilterCount}
                   </span>
                 ) : null}
@@ -229,15 +260,15 @@ export default function MenuPage() {
 
           <AnimatePresence initial={false}>
             {filtersOpen ? (
-              <motion.div
+              <MotionDiv
                 id="advanced-filters"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 className="overflow-hidden"
               >
-                <div className="mt-5 grid gap-5 border border-line-soft bg-shell/60 p-5 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="mt-5 grid gap-5 rounded-2xl border-2 border-chocolate/10 bg-butter-soft/60 p-5 sm:grid-cols-2 lg:grid-cols-3">
                   <fieldset>
                     <legend className="field-label">Dietary</legend>
                     <div className="flex flex-wrap gap-1.5">
@@ -248,10 +279,10 @@ export default function MenuPage() {
                           onClick={() => setDietary(option.id)}
                           aria-pressed={dietary === option.id}
                           className={cn(
-                            'border px-3 py-1.5 text-[0.75rem] transition-colors',
+                            'rounded-full border-2 px-3 py-1.5 text-[0.75rem] font-semibold transition-colors',
                             dietary === option.id
-                              ? 'border-ink bg-ink text-cream'
-                              : 'border-line text-ink-soft hover:border-ink/40',
+                              ? 'border-chocolate bg-chocolate text-vanilla'
+                              : 'border-chocolate/20 bg-vanilla text-ink-soft hover:border-chocolate/50',
                           )}
                         >
                           {option.label}
@@ -269,10 +300,10 @@ export default function MenuPage() {
                           onClick={() => setWeight(option.id)}
                           aria-pressed={weight === option.id}
                           className={cn(
-                            'border px-3 py-1.5 text-[0.75rem] transition-colors',
+                            'rounded-full border-2 px-3 py-1.5 text-[0.75rem] font-semibold transition-colors',
                             weight === option.id
-                              ? 'border-ink bg-ink text-cream'
-                              : 'border-line text-ink-soft hover:border-ink/40',
+                              ? 'border-chocolate bg-chocolate text-vanilla'
+                              : 'border-chocolate/20 bg-vanilla text-ink-soft hover:border-chocolate/50',
                           )}
                         >
                           {option.label}
@@ -288,24 +319,27 @@ export default function MenuPage() {
                     <button
                       type="button"
                       onClick={resetFilters}
-                      className="inline-flex w-fit items-center gap-1.5 border border-line px-3 py-1.5 text-[0.75rem] font-medium text-ink-soft transition-colors hover:border-ink/40 hover:text-ink"
+                      className="inline-flex w-fit items-center gap-1.5 rounded-full border-2 border-chocolate/25 px-3 py-1.5 text-[0.75rem] font-semibold text-chocolate transition-colors hover:border-chocolate"
                     >
                       <X className="h-3 w-3" aria-hidden="true" />
                       Reset all
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
             ) : null}
           </AnimatePresence>
 
-          <p className="mt-6 text-[0.75rem] uppercase tracking-[0.12em] text-ink-faint" aria-live="polite">
+          <p
+            className="mt-6 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-ink-faint"
+            aria-live="polite"
+          >
             {results.length} {results.length === 1 ? 'cake' : 'cakes'}
             {activeCategory ? ` in ${activeCategory.name}` : ''}
           </p>
 
           {isPendingCategory ? (
-            <div className="mt-6 border border-dashed border-line bg-shell/50 px-6 py-14 text-center">
+            <div className="mt-6 rounded-2xl border-2 border-dashed border-chocolate/30 bg-butter-soft/40 px-6 py-14 text-center">
               <p className="eyebrow justify-center">Menu pending</p>
               <h3 className="display-md mx-auto mt-3 max-w-lg">
                 {activeCategory.name} are available at the counter.
@@ -316,7 +350,7 @@ export default function MenuPage() {
                 for today&rsquo;s options.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Button href={whatsappUrl} variant="caramel">
+                <Button href={whatsappUrl} variant="chocolate">
                   Ask on WhatsApp
                 </Button>
                 <Button onClick={() => setCategory('all')} variant="outline">
@@ -325,37 +359,36 @@ export default function MenuPage() {
               </div>
             </div>
           ) : results.length > 0 ? (
-            <motion.ul
-              className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-            >
+            <ul className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               <AnimatePresence>
                 {results.map((product, index) => (
-                  <motion.li
+                  <MotionDiv
                     key={product.id}
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.24), ease: [0.22, 1, 0.36, 1] }}
-                    className="border border-line-soft bg-shell"
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.32, delay: Math.min(index * 0.018, 0.16) }}
+                    className="h-full"
                   >
                     <ProductCard
                       product={product}
                       onOpenDetail={openProduct}
                       priority={index < 4}
+                      className="h-full"
                     />
-                  </motion.li>
+                  </MotionDiv>
                 ))}
               </AnimatePresence>
-            </motion.ul>
+            </ul>
           ) : (
-            <div className="mt-6 border border-dashed border-line bg-shell/50 px-6 py-14 text-center">
+            <div className="mt-6 rounded-2xl border-2 border-dashed border-chocolate/30 bg-butter-soft/40 px-6 py-14 text-center">
               <h3 className="display-md">No cakes match those filters.</h3>
               <p className="mx-auto mt-3 max-w-md text-[0.875rem] leading-relaxed text-ink-soft">
                 Try a different collection or weight — or message the bakery and we
                 will help you find the right cake.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Button onClick={resetFilters} variant="primary">
+                <Button onClick={resetFilters} variant="chocolate">
                   Reset filters
                 </Button>
                 <Button href={whatsappUrl} variant="outline">
@@ -365,31 +398,37 @@ export default function MenuPage() {
             </div>
           )}
 
-          <div className="mt-12 grid gap-4 border-t border-line-soft pt-8 md:grid-cols-12">
-            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-ink-soft md:col-span-3">
+          {/* --------------------------- Allergens --------------------------- */}
+          <div className="mt-12 grid gap-3 rounded-2xl border-2 border-chocolate/10 bg-sky-soft/60 p-5 md:grid-cols-12 md:gap-6">
+            <p className="text-[0.625rem] font-bold uppercase tracking-[0.16em] text-chocolate md:col-span-3">
               Allergens &amp; dietary notes
             </p>
-            <p className="text-[0.8125rem] leading-relaxed text-ink-faint md:col-span-9">
+            <p className="text-[0.8125rem] leading-relaxed text-ink-soft md:col-span-9">
               {ALLERGEN_NOTICE}
             </p>
           </div>
 
-          <div className="mt-8 rounded-[2px] bg-cream-deep/60 p-6 md:p-8">
+          <div className="mt-8 overflow-hidden rounded-2xl border-2 border-chocolate bg-lavender p-6 md:p-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="font-display text-2xl leading-tight text-ink">
+                <h2 className="display-md max-w-[20ch]">
                   Looking for something not listed?
                 </h2>
-                <p className="mt-2 max-w-xl text-[0.875rem] leading-relaxed text-ink-soft">
+                <p className="mt-2 max-w-xl text-[0.875rem] leading-relaxed text-chocolate/75">
                   Custom flavours, themed designs and celebration cakes are handled
                   through the Custom Cake Studio.
                 </p>
               </div>
-              <Button to="/custom-cakes" variant="primary" className="shrink-0">
+              <Button to="/custom-cakes" variant="chocolate" className="shrink-0">
                 Custom cake enquiry
               </Button>
             </div>
           </div>
+
+          <p className="mt-6 flex items-center gap-2 text-[0.75rem] text-ink-faint">
+            <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+            Every enquiry opens a pre-filled WhatsApp message to the bakery.
+          </p>
         </div>
       </div>
 

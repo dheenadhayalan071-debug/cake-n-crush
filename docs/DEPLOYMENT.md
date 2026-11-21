@@ -9,7 +9,7 @@ environment, so no deployment is claimed as verified.
 
 ```bash
 npm install
-npm run verify     # audit → 146 tests → production build
+npm run verify     # audit → 158 tests → production build
 ```
 
 Then push to GitHub and, in Vercel:
@@ -56,7 +56,7 @@ correctly without committing any build output.
 
 ## 4. Pre-launch checklist
 
-- [ ] `npm run verify` passes locally (audit, 146 tests, build).
+- [ ] `npm run verify` passes locally (audit, 158 tests, build).
 - [ ] `VITE_SITE_URL` set in Vercel and the deployment redeployed after setting it.
 - [ ] Real domain resolves over HTTPS; `www` → apex (or vice versa) redirects once.
 - [ ] Click-to-call works from a real phone (`tel:+918838159344`).

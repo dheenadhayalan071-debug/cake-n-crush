@@ -32,7 +32,7 @@ export default function Picture({
     // a broken image icon.
     return (
       <div
-        className={`bg-cream-deep ${className}`}
+        className={`bg-butter-soft ${className}`}
         aria-label={alt}
         role="img"
         style={{ aspectRatio: '4 / 5' }}
@@ -70,8 +70,8 @@ export default function Picture({
         {...rest}
       />
       {showPlaceholderNote && source ? (
-        <figcaption className="absolute bottom-0 left-0 right-0 z-10 flex items-center gap-1.5 bg-cocoa/55 px-3 py-2 text-[0.625rem] font-medium uppercase tracking-[0.14em] text-cream/90 backdrop-blur-[2px]">
-          <span className="inline-block h-1 w-1 rounded-full bg-cream/70" aria-hidden="true" />
+        <figcaption className="absolute bottom-0 left-0 right-0 z-10 flex items-center gap-1.5 bg-chocolate/55 px-3 py-2 text-[0.625rem] font-medium uppercase tracking-[0.14em] text-vanilla/90 backdrop-blur-[2px]">
+          <span className="inline-block h-1 w-1 rounded-full bg-vanilla/70" aria-hidden="true" />
           Illustrative image — not an actual product photo
         </figcaption>
       ) : null}

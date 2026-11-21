@@ -18,10 +18,10 @@ export const SEO_DEFAULTS = {
   titleTemplate: '%s · Cake N Crush',
   defaultTitle: 'Cake N Crush — Patisserie & Celebration Cakes in Madurai',
   description:
-    'Cake N Crush is a bakery and cake shop in Park Town, Madurai. Explore eggless cakes, celebration cakes, 1kg cakes, plum cakes and custom celebration cakes made for your moment.',
+    'Cake N Crush is a patisserie and cake shop in Park Town, Madurai. Explore eggless cakes, celebration cakes, 1kg cakes, plum cakes, pastries and custom celebration cakes made for your moment.',
   image: '/images/hero-cake/hero-cake-900.webp',
   imageAlt:
-    'Illustrative editorial photograph of an ivory celebration cake with cherries',
+    'Illustrative editorial styling of a pink two-tier celebration cake with cherries',
   twitterCard: 'summary_large_image',
   locale: 'en_IN',
 };

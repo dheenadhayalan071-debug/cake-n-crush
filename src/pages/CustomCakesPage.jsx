@@ -139,7 +139,7 @@ export default function CustomCakesPage() {
         lede="A guided enquiry, not a checkout. Fill this in once and it arrives at the bakery as a neatly formatted WhatsApp message."
       />
 
-      <div className="bg-cream pb-20 pt-10 md:pb-24 md:pt-14">
+      <div className="bg-vanilla pb-20 pt-10 md:pb-24 md:pt-14">
         <div className="container-page">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
             <div className="lg:col-span-7">
@@ -149,9 +149,9 @@ export default function CustomCakesPage() {
                     ref={errorSummaryRef}
                     tabIndex={-1}
                     role="alert"
-                    className="border border-ember/40 bg-ember/5 p-4"
+                    className="border border-cherry/50 bg-cherry-soft p-4"
                   >
-                    <p className="text-sm font-semibold text-ember">
+                    <p className="text-sm font-semibold text-cherry-deep">
                       Please check {errorEntries.length}{' '}
                       {errorEntries.length === 1 ? 'field' : 'fields'} before sending.
                     </p>
@@ -160,7 +160,7 @@ export default function CustomCakesPage() {
                         <li key={key} className="text-[0.8125rem] text-ink-soft">
                           <a
                             href={`#field-${key}`}
-                            className="underline decoration-ember/40 underline-offset-2 hover:text-ember"
+                            className="underline decoration-cherry/40 underline-offset-2 hover:text-cherry-deep"
                           >
                             {message}
                           </a>
@@ -175,7 +175,7 @@ export default function CustomCakesPage() {
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="field-name" className="field-label">
-                        Your name <span className="text-ember">*</span>
+                        Your name <span className="text-cherry-deep">*</span>
                       </label>
                       <input
                         id="field-name"
@@ -198,7 +198,7 @@ export default function CustomCakesPage() {
 
                     <div>
                       <label htmlFor="field-phone" className="field-label">
-                        Phone number <span className="text-ember">*</span>
+                        Phone number <span className="text-cherry-deep">*</span>
                       </label>
                       <input
                         id="field-phone"
@@ -234,7 +234,7 @@ export default function CustomCakesPage() {
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="field-flavour" className="field-label">
-                        Cake flavour <span className="text-ember">*</span>
+                        Cake flavour <span className="text-cherry-deep">*</span>
                       </label>
                       <select
                         id="field-flavour"
@@ -261,7 +261,7 @@ export default function CustomCakesPage() {
 
                     <div>
                       <label htmlFor="field-weight" className="field-label">
-                        Cake weight <span className="text-ember">*</span>
+                        Cake weight <span className="text-cherry-deep">*</span>
                       </label>
                       <select
                         id="field-weight"
@@ -289,7 +289,7 @@ export default function CustomCakesPage() {
 
                   <fieldset>
                     <legend className="field-label">
-                      Eggless or regular <span className="text-ember">*</span>
+                      Eggless or regular <span className="text-cherry-deep">*</span>
                     </legend>
                     <div className="grid grid-cols-2 gap-2">
                       {DIETARY_OPTIONS.map((option) => {
@@ -300,7 +300,7 @@ export default function CustomCakesPage() {
                             className={cn(
                               'flex cursor-pointer items-center justify-between border px-4 py-3 text-sm transition-all duration-300',
                               selected
-                                ? 'border-ink bg-ink text-cream'
+                                ? 'border-ink bg-ink text-vanilla'
                                 : 'border-line bg-shell text-ink hover:border-ink/40',
                             )}
                           >
@@ -309,7 +309,7 @@ export default function CustomCakesPage() {
                               aria-hidden="true"
                               className={cn(
                                 'flex h-4 w-4 items-center justify-center rounded-full border',
-                                selected ? 'border-cream bg-cream text-cocoa' : 'border-line',
+                                selected ? 'border-vanilla bg-vanilla text-chocolate' : 'border-line',
                               )}
                             >
                               {selected ? <Check className="h-2.5 w-2.5" strokeWidth={3} /> : null}
@@ -336,7 +336,7 @@ export default function CustomCakesPage() {
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="field-theme" className="field-label">
-                        Theme / occasion <span className="text-ember">*</span>
+                        Theme / occasion <span className="text-cherry-deep">*</span>
                       </label>
                       <input
                         id="field-theme"
@@ -359,7 +359,7 @@ export default function CustomCakesPage() {
 
                     <div>
                       <label htmlFor="field-requiredDate" className="field-label">
-                        Required date <span className="text-ember">*</span>
+                        Required date <span className="text-cherry-deep">*</span>
                       </label>
                       <input
                         id="field-requiredDate"
@@ -444,7 +444,7 @@ export default function CustomCakesPage() {
                   <legend className="eyebrow mb-4">3 — Reference image</legend>
                   <label
                     htmlFor="field-image"
-                    className="flex cursor-pointer flex-col items-center justify-center border border-dashed border-line bg-shell/60 px-5 py-8 text-center transition-colors hover:border-caramel/60"
+                    className="flex cursor-pointer flex-col items-center justify-center border border-dashed border-line bg-shell/60 px-5 py-8 text-center transition-colors hover:border-cherry/60"
                   >
                     <ImagePlus className="h-6 w-6 text-ink-faint" aria-hidden="true" strokeWidth={1.5} />
                     <span className="mt-3 text-sm font-medium text-ink">
@@ -475,7 +475,7 @@ export default function CustomCakesPage() {
                       <button
                         type="button"
                         onClick={clearImage}
-                        className="flex h-7 w-7 shrink-0 items-center justify-center text-ink-faint hover:text-ember"
+                        className="flex h-7 w-7 shrink-0 items-center justify-center text-ink-faint hover:text-cherry-deep"
                         aria-label="Remove reference image"
                       >
                         <X className="h-3.5 w-3.5" aria-hidden="true" />
@@ -507,10 +507,10 @@ export default function CustomCakesPage() {
                   <div
                     role="status"
                     aria-live="polite"
-                    className="border border-caramel/40 bg-caramel/8 p-4"
+                    className="border border-cherry/40 bg-cherry-soft p-4"
                   >
                     <p className="flex items-center gap-2 text-sm font-semibold text-ink">
-                      <Check className="h-4 w-4 text-caramel-deep" aria-hidden="true" />
+                      <Check className="h-4 w-4 text-cherry-deep" aria-hidden="true" />
                       Your enquiry is ready in WhatsApp
                     </p>
                     <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-ink-soft">
@@ -522,7 +522,7 @@ export default function CustomCakesPage() {
                         href={lastUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-caramel-deep underline underline-offset-4"
+                        className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-cherry-deep underline underline-offset-4"
                       >
                         Open WhatsApp again
                         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -559,7 +559,7 @@ export default function CustomCakesPage() {
                       <li key={step} className="flex gap-3">
                         <span
                           aria-hidden="true"
-                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-caramel/40 text-[0.625rem] font-semibold text-caramel-deep"
+                          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-cherry/40 text-[0.625rem] font-semibold text-cherry-deep"
                         >
                           {index + 1}
                         </span>
@@ -573,7 +573,7 @@ export default function CustomCakesPage() {
                     </p>
                     <a
                       href={PHONE_HREF}
-                      className="mt-2 inline-flex items-center gap-2 font-display text-lg text-ink transition-colors hover:text-caramel-deep"
+                      className="mt-2 inline-flex items-center gap-2 font-display text-lg text-ink transition-colors hover:text-cherry-deep"
                     >
                       <Phone className="h-4 w-4" aria-hidden="true" />
                       {BUSINESS.phoneDisplay}
