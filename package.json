@@ -1,0 +1,41 @@
+{
+  "name": "cake-n-crush",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cake N Crush \u2014 premium patisserie website for Madurai, Tamil Nadu.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/build-images.mjs && node scripts/build-seo.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "images": "node scripts/build-images.mjs",
+    "seo": "node scripts/build-seo.mjs",
+    "audit": "node scripts/audit-content.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify": "npm run audit && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "framer-motion": "^14.14.0",
+    "lucide-react": "^1.77.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.6",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^27.0.0",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8",
+    "vitest": "^4.0.0"
+  }
+}
