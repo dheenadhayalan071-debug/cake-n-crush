@@ -24,6 +24,9 @@ Everything a business owner needs to review, in plain language. Two sections: wh
 | 13 | **Customer reviews** | None published; homepage states this openly | ☐ Supply verified reviews |
 | 14 | **Domain & canonical URL** | Placeholder `cakencrush.example.com` | ☐ Domain purchased: ____________ |
 | 15 | **Allergen statement** | Generic "our kitchen handles wheat, dairy, eggs and nuts" safety notice | ☐ Approved  ☐ Replace with official wording |
+| 16 | **"Chocolate Cakes" collection** (new) | Derived automatically from every cake whose flavour is chocolate-led — 6 cakes, no new products, no new prices | ☐ Approved  ☐ Rename to: ____________ |
+| 17 | **"Featured Collection" wording** | The homepage selection is labelled editorial, not bestseller, because no sales data was supplied | ☐ Approved  ☐ Convert to bestsellers (provide list) |
+| 18 | **Hero copy** "Life is better with cake." | New brand line introduced by the redesign; sits above the support line about little moments and big celebrations | ☐ Approved  ☐ Preferred line: ____________ |
 
 > The site is built so items 7–13 can be switched on later without a redesign: each has a
 > data field or a documented component slot.
